@@ -1,0 +1,214 @@
+@charset "utf-8";
+
+ui-body-a,.ui-overlay-a{
+background:#222;
+color:#000;
+text-shadow:0 1px 0 #111;
+font-weight:400;
+background-image: url(css/images/2.png);
+   background-size: cover;
+}
+
+ui-body-b,.ui-overlay-b{
+background:#222;
+color:#000;
+text-shadow:0 1px 0 #111;
+font-weight:400;
+background-image: url(css/images/2.png);
+   background-size: cover;
+}
+.ui-body-a div div div ul li p { 
+	text-align: right;
+}
+.ui-body-a div div div h3 {
+	text-align: right;
+
+}
+
+
+ui-body-b,.ui-overlay-b{
+background:#222;
+color:#000;
+text-shadow:0 1px 0 #111;
+font-weight:400;
+background-image: url(css/images/2.png);
+   background-size: cover;
+}
+ui-body-c,.ui-overlay-c{
+background:#222;
+color:#000;
+text-shadow:0 1px 0 #111;
+font-weight:400;
+background-image: url(css/images/2.png);
+   background-size: cover;
+
+}a {
+	font-weight: bold;
+	color:#000;
+	font-size: 16px;
+}
+.my-page div ul .bg {
+	background-image: url(css/images/hd1.png);
+	background-repeat: no-repeat;
+}
+
+.arabic {
+	text-align: right;
+}
+.ui-page .ui-content .ui-listview .ui-li-thumb {
+    left  : auto;
+    right : 30px;
+}
+.Ptext {
+	text-align: justify;
+}
+.ui-content {
+overflow: hidden;
+margin-bottom: 0px;
+
+}
+#nav-panel {
+overflow: hidden;	
+}
+.centerBanner {
+
+}
+.divRight {
+
+}
+.ui-page .ui-content .ui-listview .ui-btn-text a {
+	text-align: right;
+	padding-right: 50px;
+	color: #000;
+	
+}
+.type-interior div ul li .ListH h3 {
+	margin-right: 80px;
+}
+.ui-body-a .type-interior div div {
+	margin-bottom: 0px;
+	
+}
+.F{
+bottom:0; position:absolute !important; top: auto !important; width:100%;}
+
+
+
+#fff {
+	border-left: 5px solid #0f0;
+	background-color: #F03;
+	color: #0CC;
+}
+a:active
+{ 
+	color:#000;
+}
+#greenHero{
+background:#ffffff ;
+font-weight:bold;
+background-image:-webkit-gradient(linear,left top,left bottom,from( rgba(232,233,232,1) ),to( rgba(232,233,232,0.5) )); 
+background-image:-webkit-linear-gradient( rgba(232,233,232,1),rgba(232,233,232,0.5) ); background-image:   -moz-linear-gradient( rgba(232,233,232,1),rgba(232,233,232,0.5) ); background-image:    -ms-linear-gradient( rgba(232,233,232,0.5),rgba(232,233,232,1) ); background-image:     -o-linear-gradient( rgba(232,233,232,1),rgba(232,233,232,0.5) ); background-image:        linear-gradient( rgba(232,233,232,1),rgba(232,233,232,0.5) );
+}
+
+/* Flip Mode Styles */
+.ui-datebox-flipcontent { text-align: center; height: 125px; margin-bottom: -40px;}
+.ui-datebox-flipcontent div { margin-left: 3px; margin-right: 3px; width: 77px; height: 120px; display: inline-block; text-align: center; zoom: 1; *display: inline; overflow: hidden;}
+.ui-datebox-flipcontentd div { width: 60px; }
+.ui-datebox-flipcenter { border: 1px solid #eee; height: 40px; margin-left: 10px; width: 260px; margin-right: auto; margin-left: auto; position: relative; top: -45px;}
+.ui-datebox-flipcontent ul { list-style-type: none; display: inline; }
+.ui-datebox-flipcontent li { height: 30px; }
+.ui-datebox-flipcontent li span { margin-top: 7px; display: block; }
+
+
+.ui-collapsible h3 .ui-btn-inner
+{
+    text-align:right;
+}.ui-body-a div div div #panelcategories {
+	text-align: right;
+}
+
+#ContentT
+{
+background:#f2efe6 ;
+font-weight:bold;
+}
+.ul-right-align
+{
+padding: 0;
+margin: 0;
+text-align: right;
+}
+
+.li-right-align
+{
+   display: block;
+   float: right;
+
+}
+
+.Panel
+{
+	top: 35%;
+}
+#splash img{
+width:100%;
+height:100%;
+}
+
+#overlay { 
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.3);
+}
+
+.whiteColor {
+color: white;
+}
+
+.SmallFont
+{
+	font-size:14px;
+	}
+
+.popupBG{
+	background-image: url(css/images/2.png);
+	color: #000;
+	text-shadow: 0 0px 0;
+
+}
+#nav-panel ul li a {
+	text-align: right;
+}
+.ui-body-a #offerdetails div #offerdetailsD div div ul li {
+	text-align: right !important;
+}
+
+.spanRight
+{
+    text-align: right; 
+    display:block;	
+}
+.textsize
+{ font-size:20px;}
+.centerbutton {
+	text-align: center;
+}
+#errM{
+	color: red;
+	font-style: normal;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+label.error {
+    float: none; 
+    color: red; 
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.4;
+    margin-top: 0.5em;
+    width: 100%;
+    display: block;
+    margin-left: 22%;
+}

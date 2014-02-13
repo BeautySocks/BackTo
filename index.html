@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1.0,user-scalable=no">
+
+<title> Absher Initiative </title>
+
+<!--3 files needed to download from iquery
+-->
+<link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css"/>
+<link rel="stylesheet" href="themes/BackToV1Header.min.css" />
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile.structure-1.4.0.min.css" />
+<script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+
+<script type="text/javascript" src="offers.json"></script>
+<script type="text/javascript" src="js/StyledMarker.js"></script>
+<!--<script type="text/javascript" src="energize.js"></script>
+<script type="text/javascript" src="energize-min.js"></script>-->
+<!-- Our own Style Sheet -->
+
+<!--No need to download this file, it will be added-->
+<script src="phonegap.js"></script>
+
+<!------->
+<script type="text/javascript" src ="js/jquery-1.10.2.min.js"></script>
+<!------->
+</script>
+
+
+<!-- Start of Registration-->
+<script src="js/usergrid.SDK.js"></script>
+<script src="js/usergrid.0.10.5.js"></script>
+        <script type="text/javascript">
+            // Initializing the SDK
+            var client = new Usergrid.Client({
+                orgName:'absher', // Your Usergrid organization name (or apigee.com username for App Services)
+                appName:'absher' // Your Usergrid app name
+            });
+			
+
+		    var employees = new Usergrid.Collection( { "client":client, "type":"employees" } );
+			Usergrid.ApiClient.init('absher', 'employees');
+            // Make a new "book" collection and read data
+            var options = {
+                type:'employees',
+                qs:{ql:'order by workID DESC'}
+            }
+
+            var employees;
+
+            client.createCollection(options, function (err, employees) {
+                if (err) {
+                    alert("Couldn't get the list of books.");
+                } else {
+                    while(employees.hasNextEntity()) {
+                        var employee = employees.getNextEntity();
+                       // alert(employee.get("workID")); // Output the title of the book
+                    }
+                }
+            });
+//////////////////////////////////////////////////////////////////////////////////////////
+//								EMPLOYEES LOGIN											//
+//////////////////////////////////////////////////////////////////////////////////////////
+			function loginEmp(){
+				if (
+				  ($("#user").val()== '')||
+				  ($("#pass").val()=='')
+			   )
+			{
+				alert('الرجاء تعبئة كافة البيانات');
+			}
+			else{
+                employees.fetch(
+                    // Success Callback
+                    function () {
+						NotEqual=true;
+						while(employees.hasNextEntity()) {
+							var employee = employees.getNextEntity();
+							if ((employee.get("workID") == $("#user").val()) && ((employee.get("Password")==$("#pass").val())))
+							{
+								NotEqual=false;
+								$.mobile.changePage("#profile");
+							}
+						}
+						if (NotEqual==true)
+						alert('رقم بطاقة العمل أو كلمة المرور التي أدخلتها غير صحيحة');
+						document.Login.user.focus();
+                     }
+				)
+			  }
+			}
+//////////////////////////////////////////////////////////////////////////////////////////
+//								EMPLOYEES REG											//
+//////////////////////////////////////////////////////////////////////////////////////////
+			function SaveME(){
+				var readyR=true;
+				//VALIDATION
+			if (
+				  ($("#orkID").val()== '')||
+				  ($("#Password").val()=='')||
+				  ($("#RetPassword").val()=='')||
+				  ($("#EmpName").val()=='')||
+				  ($("#ComName").val()=='')||
+				  ($("#JobTitle").val()=='')||
+				  ($("#IssueDate").val()=='')||
+				  ($("#PhoneNo").val()=='')||
+				  ($("#EmpEmail").val()=='')||
+				  ($("#EmpPOBox").val()=='')||
+				  ($("#select-choice-a").val()=='')||
+				  ($("#UAEID").val()=='')||
+				  ($("#mydate").val()=='')||
+				  ($("#Proof").val()=='')
+			   )
+			{
+				alert('الرجاء تعبئة كافة البيانات');
+				readyR=false;
+				document.LocReg.orkID.focus();
+			}
+			else{
+			//Validate Password and Password Confirm
+			if (($("#Password").val())!=($("#RetPassword").val()))
+			{
+				alert('كلمة المرور التي أدخلتها غير متطابقة');
+				readyR=false;
+				document.LocReg.Password.focus() ;
+			}
+			
+			//Validate email correct or not
+			var x=$("#EmpEmail").val();
+			var atpos=x.indexOf("@");
+			var dotpos=x.lastIndexOf(".");
+			if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length)
+			  {
+			  alert("عنوان البريد الإلكتروني الذي أدخلته غير صحيح");
+			  readyR=false;
+			  document.LocReg.EmpEmail.focus() ;
+			  }
+			  
+			//Validate if entered numbers only for phoneNo
+			 if (isNaN(($("#PhoneNo").val()))) 
+			 {
+			  alert('رقم الهاتف المتحرك غير صحيح');
+			  document.LocReg.PhoneNo.focus() ;
+			 }
+			}
+			if(readyR==true){		  
+			LocalReg();
+			}
+			function LocalReg(){
+			 new_Loc_emp = { 
+				"workID": $("#orkID").val(),
+				"Password": $("#Password").val(),
+				"EmpName": $("#EmpName").val(),
+				"ComName": $("#ComName").val(),
+				"JobTitle": $("#JobTitle").val(),
+				"IssueDate": $("#IssueDate").val(),
+				"PhoneNo": $("#PhoneNo").val(),
+				"EmpEmail": $("#EmpEmail").val(),
+				"EmpPOBox": $("#EmpPOBox").val(),
+				"EmpEmirates": $("#select-choice-a").val(),
+				"UAEID": "css\\images\\"+$("#UAEID").val(),
+				"mydate": $("#mydate").val(),
+				"Proof": "css\\images\\"+$("#Proof").val()
+				};
+                employees.addEntity(new_Loc_emp, function (error, response) {
+                   if (error) { alert("لم تتم إدخال البيانات الصحيحة");
+                   } else {  
+				   	  $.mobile.changePage("#home");
+                      alert("لقد تم التسجيل بنجاح.");
+                   } 
+                });
+			}
+			}
+//////////////////////////////////////////////////////////////////////////////////////////
+//									INQUIRY 1											//
+//////////////////////////////////////////////////////////////////////////////////////////
+			function inquiry1(){
+                employees.fetch(
+                    // Success Callback
+                    function () {
+						NotEqual=true;
+						while(employees.hasNextEntity()) {
+							var employee = employees.getNextEntity();
+							if ((employee.get("workID") == $("#InqID").val()))
+							{
+								NotEqual=false;
+				  			 	$.mobile.changePage("#inqResults");
+								// Output the book on the page
+                           		$('#inquiry_Res').empty().append('<p dir="rtl">'+employee.get('workID')+'</p><br/>'
+								+'<p dir="rtl"><b>اسم الموظف: </b>'+employee.get('EmpName')+'</p>'
+								+'<p dir="rtl"><b>اسم الشركة:  </b>'+employee.get('ComName')+'</p>'
+								+'<p dir="rtl"><b>المسمى الوظيفي:  </b>'+employee.get('JobTitle')+'</p>'
+								+'<p dir="rtl"><b>الإمارة: </b>'+employee.get('EmpEmirates')+'</p>'
+								+'<p dir="rtl"><b>رقم الهاتف المتحرك: </b>'+employee.get('PhoneNo')+'</p>'
+							);
+							}
+						}
+						if (NotEqual==true)
+						{
+						alert('الرجاء إدخال رقم الطلب الصحيح');
+						}
+						// Re-apply jQuery Mobile styles
+                        $('#inquiry_Res').listview('refresh');
+                     }
+				)
+			}
+//////////////////////////////////////////////////////////////////////////////////////////
+//								COMPANIES REG											//
+//////////////////////////////////////////////////////////////////////////////////////////
+		    var companies = new Usergrid.Collection( { "client":client, "type":"companies" } );
+			Usergrid.ApiClient.init('absher', 'companies');
+            // Make a new "book" collection and read data
+            var options = {
+                type:'companies',
+                qs:{ql:'order by CompanyNo DESC'}
+            }
+
+            var companies;
+
+            client.createCollection(options, function (err, companies) {
+                if (err) {
+                    alert("Couldn't get the list of books.");
+                } else {
+                    while(companies.hasNextEntity()) {
+                        var company = companies.getNextEntity();
+                        //alert(company.get("CompanyNo")); // Output the title of the book
+                    }
+                }
+            });
+			function SaveME2(){
+				var readyRC=true;
+				//VALIDATION
+			if (
+				  ($("#CompanyNo").val()== '')||
+				  ($("#ArabicName").val()=='')||
+				  ($("#EnglishName").val()=='')||
+				  ($("#EconomicActivity").val()=='')||
+				  ($("#Address").val()=='')||
+				  ($("#select-choice-a").val()=='')||
+				  ($("#select-choice-b").val()=='')||
+				  ($("#Name").val()=='')||
+				  ($("#MobileNo").val()=='')||
+				  ($("#OfficeNo").val()=='')||
+				  ($("#Email").val()=='')||
+				  ($("#POBox").val()=='')||
+				  ($("#select-choice-c").val()=='')||
+				  ($("#OfferDetail").val()=='')
+			   )
+			{
+				alert('الرجاء تعبئة كافة البيانات');
+				readyRC=false;
+				document.ComReg.CompanyNo.focus();
+			}
+			else{
+			//Validate email correct or not
+			var x=$("#Email").val();
+			var atpos=x.indexOf("@");
+			var dotpos=x.lastIndexOf(".");
+			if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length)
+			  {
+			  alert("عنوان البريد الذي أدخلته غير صحيح");
+			  readyRC=false;
+			  document.ComReg2.Email.focus() ;
+			  }
+			
+			//Check if checkbox is checked or not
+			if(!document.ComReg2.checkbox.checked)
+				{
+				alert('لم تتم الموافقة على الشروط');
+				}
+			//Validate if entered numbers only for phoneNo
+			 if (isNaN(($("#MobileNo").val()))) 
+			 {
+			  alert('رقم الهاتف المتحرك غير صحيح');
+			  document.ComReg2.MobileNo.focus() ;
+			 }
+			 			//Validate if entered numbers only for phoneNo
+			 if (isNaN(($("#OfficeNo").val()))) 
+			 {
+			  alert('رقم هاتف المكتب غير صحيح');
+			  document.ComReg2.OfficeNo.focus() ;
+			 }
+			}	
+			if(readyRC==true){		  
+			CompanyReg();
+			}
+			function CompanyReg(){
+                new_com_emp = { 
+				"registered": $("#select-choice-b").val(),
+				"CompanyNo": $("#CompanyNo").val(),
+				"ArabicName": $("#ArabicName").val(),
+				"EnglishName": $("#EnglishName").val(),
+				"EconomicActivity": $("#EconomicActivity").val(),
+				"Address": $("#Address").val(),
+				"Emirates": $("#select-choice-a").val(),
+				"CoorName": $("#Name").val(),
+				"CoorMobileNo": $("#MobileNo").val(),
+				"OfficeNo": $("#OfficeNo").val(),
+				"CoorEmail": $("#Email").val(),
+				"CoorPOBox": $("#POBox").val(),
+				"CoorEmirates": $("#select-choice-c").val(),
+				"OfferDetail": $("#OfferDetail").val()				
+				};
+                companies.addEntity(new_com_emp, function (error, response) {
+                   if (error) { alert("لم تتم إدخال البيانات الصحيحة");
+                   } else {  
+				   	  $.mobile.changePage("#home");
+                      alert("لقد تم التسجيل بنجاح.");
+                   } 
+                });
+   			}
+			}
+//////////////////////////////////////////////////////////////////////////////////////////
+//									INQUIRY 2											//
+//////////////////////////////////////////////////////////////////////////////////////////
+			function inquiry2(){
+                companies.fetch(
+                    // Success Callback
+                    function () {
+						NotEqual=true;
+						while(companies.hasNextEntity()) {
+							var company = companies.getNextEntity();
+							if ((company.get("CompanyNo") == $("#InqCompID").val()))
+							{
+								NotEqual=false;
+				  			 	$.mobile.changePage("#inqResults");
+								// Output the book on the page
+                           		$('#inquiry_Res').empty().append('<p><h3 dir="rtl">'+company.get('CompanyNo')+'</h3></p><br/>'
+								+'<p dir="rtl"><b>اسم المنشأة:  </b>'+company.get('ArabicName')+'</p>'
+								+'<p dir="rtl"><b>العنوان:  </b>'+company.get('Address')+'</p>'
+								+'<p dir="rtl"><b>الإمارة: </b>'+company.get('Emirates')+'</p>'
+								+'<p dir="rtl"><b>اسم المنسق: </b>'+company.get('CoorName')+'</p>'
+								+'<p dir="rtl"><b>رقم الهاتف المتحرك: </b>'+company.get('CoorMobileNo')+'</p>'
+								+'<p dir="rtl"><b>رقم المكتب: </b>'+company.get('OfficeNo')+'</p>'
+							);
+							}
+						}
+						if (NotEqual==true)
+						{
+						alert('الرجاء إدخال رقم الطلب الصحيح');
+						}
+						// Re-apply jQuery Mobile styles
+                        $('#inquiry_Res').listview('refresh');
+						 
+						
+                     }
+				)
+			  }
+//////////////////////////////////////////////////////////////////////////////////////////
+//								ADD YOUR SUGGESTION										//
+//////////////////////////////////////////////////////////////////////////////////////////
+		    var suggestions = new Usergrid.Collection( { "client":client, "type":"suggestions" } );
+			Usergrid.ApiClient.init('absher', 'suggestions');
+            // Make a new "book" collection and read data
+            var options = {
+                type:'suggestions',
+                qs:{ql:'order by title DESC'}
+            }
+            var suggestions;
+            client.createCollection(options, function (err, suggestions) {
+                if (err) {
+                    alert("Couldn't get the list of books.");
+                } else {
+                    while(suggestions.hasNextEntity()) {
+                        var suggestion = suggestions.getNextEntity();
+                    }
+                }
+            });
+			function SaveSugg(){
+                new_sugg = { 
+				"title": $("#Subject").val(),
+				"details": $("#feedbackmessage").val()				
+				};
+                suggestions.addEntity(new_sugg, function (error, response) {
+                   if (error) { alert("لم تتم إدخال البيانات الصحيحة");
+                   } else {  
+				   	  $.mobile.changePage("#home");
+                      alert("شكراً لمشاركتنا الرأي");
+                   } 
+                });
+			}
+        </script>
+<!-- End of Registration-->
+</head> 
+<!-- End of Head -->
+
+<!-- Start of Body -->
+<body class="ui-body-a">
+<!-- Start of Page Div -->
+<div data-role="page" id="home" class="type-interior">
+
+<!-- Start of Header -->
+<div data-role="header">
+<h1>الصفحة الرئيسية</h1>
+<!-- Start of Panel -->
+<a href ="#nav-panel"data-role="button" data-iconpos="notext" data-icon="bars" data-inline="true">Menu</a>
+<!-- End of Panel -->
+</div>
+<!-- End of Header -->
+
+<!-- Start of Content -->
+<div data-role="content">
+<!-- Nearest Offer-->
+<h2 dir="rtl">أقرب عرض إليك</h2>
+<a href="#offers" data-role="button">لمشاهدة جميع العروض</a>
+<ul dir="rtl" id="listH" data-role="listview" data-inset="true">
+</ul>
+<!--End of nearest offer-->
+
+<!-- footer -->
+<div data-role="footer" data-position="fixed">
+<!-- Navbar -->
+        <div data-role="navbar" data-iconpos="left">
+                <ul id="options">
+                        <li>
+            <a href="#home"><img src="css/images/home2.png" width="30" height="30"></a>
+            </li>
+                        <li>
+            <a href="#profile"><img src="css/images/profile1.png" width="30" height="30"></a>
+            </li>
+            <li>
+            <a href="#offers"><img src="css/images/tag1.png" width="30" height="30"></a>
+            </li>
+            <li>
+            <a href="#contactus"><img src="css/images/contact1.png" width="30" height="30"></a>
+            </li>
+                </ul>
+        </div>
+    <!-- /navbar -->
+</div> 
+<!-- End of footer -->
+
+<!-- Start of Home Page Panel-->
+<div data-role="panel" id="nav-panel" data-position="left" data-theme="a">
+<ul data-role="listview" data-theme="a" data-icon="false" id="ul-panel">
+<li id="Pdelete" data-icon="delete"><a data-rel="close">إغلاق القائمة</a></li>
+<li id="login"><a href="#login">دخول</a></li>
+<li id="Pabout"><a href="#aboutabsher">عن المبادرة</a></li>
+</ul>
+
+<div data-role="collapsible-set" data-inset="false" data-iconpos="right" data-content-theme="d">
+
+<div data-role="collapsible" data-theme="a">
+<h3>استفسار</h3>
+<ul data-role="listview" id="panelcategories" data-theme="a">
+<li><a href="#Inquiry1" data-rel="popup" data-inline="true">استفسار عن حالة تسجيل المواطن</a></li>
+<li><a href="#Inquiry2" data-rel="popup" data-inline="true">استفسار عن حالة طلب المنشأة</a>
+</li>
+</ul>
+</div> <!-- End second collapsible -->
+</div> <!-- End collapsible-->
+</div> 
+<!-- End of Home Page Panel -->
+</div>
+</div>
+<!-- End of Home page -->
+<script type="text/javascript" src="AbsherApp.js"></script>
+</body>
+</html>
